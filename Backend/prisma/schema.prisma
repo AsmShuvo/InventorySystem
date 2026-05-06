@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReservationStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  createdAt DateTime @default(now())
+
+  reservations Reservation[]
+  purchases    Purchase[]
+}
+
+model Drop {
+  id             String   @id @default(cuid())
+  name           String
+  description    String?
+  totalStock     Int
+  availableStock Int
+  price          Float
+  startsAt       DateTime
+  createdAt      DateTime @default(now())
+
+  reservations Reservation[]
+  purchases    Purchase[]
+}
+
+model Reservation {
+  id        String            @id @default(cuid())
+  userId    String
+  dropId    String
+  expiresAt DateTime
+  status    ReservationStatus @default(ACTIVE)
+  createdAt DateTime          @default(now())
+
+  user     User      @relation(fields: [userId], references: [id])
+  drop     Drop      @relation(fields: [dropId], references: [id])
+  purchase Purchase?
+
+  @@index([userId])
+  @@index([dropId])
+  @@index([status])
+}
+
+model Purchase {
+  id            String   @id @default(cuid())
+  userId        String
+  dropId        String
+  reservationId String   @unique
+  createdAt     DateTime @default(now())
+
+  user        User        @relation(fields: [userId], references: [id])
+  drop        Drop        @relation(fields: [dropId], references: [id])
+  reservation Reservation @relation(fields: [reservationId], references: [id])
+
+  @@index([userId])
+  @@index([dropId])
+}
