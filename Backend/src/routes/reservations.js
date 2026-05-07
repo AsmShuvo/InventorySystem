@@ -5,12 +5,15 @@ const router = express.Router();
 
 const RESERVATION_WINDOW_MS = 60 * 1000;
 
-function isLockNotAvailable(err) {
-  const msg = (err && (err.message || '')).toLowerCase();
+function isContention(err) {
+  if (!err) return false;
+  if (err.code === 'P2028') return true;
+  const msg = (err.message || '').toLowerCase();
   return (
     msg.includes('could not obtain lock') ||
     msg.includes('55p03') ||
-    msg.includes('lock_not_available')
+    msg.includes('lock_not_available') ||
+    msg.includes('unable to start a transaction')
   );
 }
 
@@ -80,7 +83,7 @@ router.post('/', async (req, res) => {
 
     return res.status(result.status).json(result.body);
   } catch (err) {
-    if (isLockNotAvailable(err)) {
+    if (isContention(err)) {
       return res
         .status(409)
         .json({ error: 'Too many requests, try again' });

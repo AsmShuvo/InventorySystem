@@ -8,6 +8,7 @@ const { Server } = require('socket.io');
 const dropsRouter = require('./routes/drops');
 const reservationsRouter = require('./routes/reservations');
 const purchasesRouter = require('./routes/purchases');
+const usersRouter = require('./routes/users');
 const { startExpiryJob } = require('./jobs/expireReservations');
 
 const PORT = process.env.PORT || 4000;
@@ -33,6 +34,7 @@ app.set('io', io);
 app.use('/api/drops', dropsRouter);
 app.use('/api/reservations', reservationsRouter);
 app.use('/api/purchases', purchasesRouter);
+app.use('/api/users', usersRouter);
 
 io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);
