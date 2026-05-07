@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
 import { getDrops } from './api';
 import DropCard from './components/DropCard.jsx';
@@ -11,6 +11,7 @@ export default function App() {
   const { users, currentUser, setCurrentUser, loading: usersLoading } = useUser();
   const [drops, setDrops] = useState([]);
   const [dropsLoading, setDropsLoading] = useState(true);
+  const [isSwitching, setIsSwitching] = useState(false);
 
   const refreshDrops = useCallback(async () => {
     try {
@@ -45,7 +46,13 @@ export default function App() {
 
   const handleUserChange = (e) => {
     const user = users.find((u) => u.id === e.target.value);
-    setCurrentUser(user || null);
+    if (!user) return;
+    setIsSwitching(true);
+    setTimeout(() => {
+      setCurrentUser(user);
+      setIsSwitching(false);
+      toast.success(`Switched to ${user.username}`);
+    }, 500);
   };
 
   const sortedDrops = useMemo(
@@ -92,6 +99,31 @@ export default function App() {
       </main>
 
       <Toaster position="top-right" />
+
+      {isSwitching && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <svg
+            className="h-8 w-8 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            />
+          </svg>
+        </div>
+      )}
     </div>
   );
 }
