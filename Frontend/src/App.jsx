@@ -54,20 +54,17 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="sticky top-0 z-10 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <h1 className="text-xl font-semibold tracking-tight md:text-2xl">
-            👟 Sneaker Drop
-          </h1>
-
-          <label className="flex items-center gap-3 text-sm">
-            <span className="text-slate-400">Logged in as</span>
+    <div className="min-h-screen bg-white text-gray-900">
+      <header className="border-b border-gray-200">
+        <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-lg font-semibold">Sneaker Drop</h1>
+          <label className="flex items-center gap-2 text-sm">
+            <span>User:</span>
             <select
               value={currentUser?.id || ''}
               onChange={handleUserChange}
               disabled={usersLoading || users.length === 0}
-              className="rounded-md border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm text-slate-100 outline-none transition focus:border-slate-500 disabled:opacity-50"
+              className="rounded border border-gray-300 px-2 py-1 text-sm"
             >
               {users.length === 0 && <option value="">No users</option>}
               {users.map((u) => (
@@ -80,13 +77,13 @@ export default function App() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="mx-auto max-w-5xl px-4 py-6">
         {dropsLoading ? (
-          <p className="text-slate-400">Loading drops...</p>
+          <p className="text-sm text-gray-500">Loading...</p>
         ) : sortedDrops.length === 0 ? (
-          <p className="text-slate-400">No drops available right now.</p>
+          <p className="text-sm text-gray-500">No drops available.</p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {sortedDrops.map((drop) => (
               <DropCard key={drop.id} drop={drop} onRefresh={refreshDrops} />
             ))}
@@ -94,16 +91,7 @@ export default function App() {
         )}
       </main>
 
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          style: {
-            background: '#1e293b',
-            color: '#f1f5f9',
-            border: '1px solid #334155',
-          },
-        }}
-      />
+      <Toaster position="top-right" />
     </div>
   );
 }
