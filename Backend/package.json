@@ -7,11 +7,15 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js",
+    "start": "prisma migrate deploy && node src/index.js",
+    "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "node prisma/seed.js"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
