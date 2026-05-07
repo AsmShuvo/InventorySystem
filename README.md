@@ -235,6 +235,5 @@ update obvious.
 - **Database:** Neon Postgres (serverless). The connection string includes
   `?sslmode=require`.
 
-After the frontend deploys, the backend's `CLIENT_URL` env var must be
-set to the Vercel URL exactly (no trailing slash) - otherwise CORS
-rejects the browser.
+
+# @Author - ASM Shahrier Parvaz
