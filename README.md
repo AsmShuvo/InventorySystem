@@ -5,7 +5,7 @@ live stock counts, reserve an item for 60 seconds and complete the purchase
 before the reservation expires. Stock changes propagate to every connected
 client over WebSockets.
 
-**Live demo:** https://invsys-three.vercel.app
+**Live demo:** https://myinventory-realtime.vercel.app
 
 ## Tech Stack
 
