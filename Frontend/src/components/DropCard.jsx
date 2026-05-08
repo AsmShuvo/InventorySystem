@@ -79,7 +79,7 @@ export default function DropCard({ drop, onRefresh }) {
   return (
     <div className="flex flex-col gap-3 rounded border border-gray-200 p-4">
       <div>
-        <h2 className="font-medium">{drop.name}</h2>
+        <h2 className="text-xl font-bold">{drop.name}</h2>
         {drop.description && (
           <p className="text-sm text-gray-600">{drop.description}</p>
         )}

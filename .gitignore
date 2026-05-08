@@ -22,8 +22,7 @@
 
 # editor / OS
 .vscode/
-.idea/
-.claude/
+.idea/ 
 .DS_Store
 Thumbs.db
 
